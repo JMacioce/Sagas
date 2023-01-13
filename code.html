@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>Back-Words: A Coding Project by Julian Macioce</title>
+    <title>Sagas: A Coding Project by Julian Macioce</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,7 @@
     <!-- Nav Section -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand logoFont" href="app.html"><img src="img/favicon-32x32.png" class="d-inline-block align-text-top" title="My Favourite Pokémon: Snorlax!" height="26"> BACK-WORDS</a>
+            <a class="navbar-brand logoFont" href="app.html"><img src="img/favicon-32x32.png" class="d-inline-block align-text-top" title="My Favourite Pokémon: Snorlax!" height="26"> SAGAS</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,7 +40,7 @@
                         <a class="nav-link active" aria-current="page" href="code.html">The Code</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://github.com/JMacioce/Back-Words">Git Repo</a>
+                        <a class="nav-link" target="_blank" href="https://github.com/JMacioce/Sagas">Git Repo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="https://julianmacioce.me/">About</a>
@@ -53,67 +53,91 @@
     <!-- Main Section -->
     <main class="flex-shrink-0">
         <div class="container py-5 px-5 mt-5">
-            <h2 class="border-1 border-bottom border-dark">The Code for <span class="logoFont">Back-Words</span></h2>
+            <h2 class="border-1 border-bottom border-dark">The Code for <span class="logoFont">SAGAS</span></h2>
             <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col-lg-8">
                     <pre class="line-numbers">
                         <code class="language-javascript">
-                            //get string from app page
+                            //get user input
                             //controller function
                             function getValue() {
+                                //make sure the alert is invisible
                                 document.getElementById("alert").classList.add("invisible");
                                 let userString = document.getElementById("userString").value;    
                                 
                                 if (userString.length > 1) {
-                                    //call reverse string passing it the value of userString and setting that to revString
-                                    let backWords = reverseString(userString);
-                                    //calling displayString
-                                    displayString(backWords);
+                                    //call checkForPalindrome passing it the value of userString and setting that to returnObj
+                                    let returnObj = checkForPalindrome(userString);
+                                    //calling displayMessage
+                                    displayMessage(returnObj);
                                 }
                                 else {
                                     alert("You must enter at least 2 characters to reverse your string!");
                                 }
-                                
                             }
 
-                            //Reverse string
+                            //check palindrome
                             //logic function
-                            function reverseString(userString) {
+                            function checkForPalindrome(userString) {
+                                //convert all characters to lower case
+                                userString = userString.toLowerCase();
+                                //remove spaces and special characters
+                                let regex = /[^a-z0-9]/gi;
+                                //return any character in regex and replace every character that is not with ""
+                                userString = userString.replace(regex,"");
                                 //initialize empty array
-                                let backWords = [];
-                                //reverse a string using a for loop
+                                let revString = [];
+                                //declaring a return object
+                                let returnObj = {};
+                                //reverse a string using a for loop and storing into revString
                                 for (let index = userString.length - 1; index >= 0; index--) {
-                                    backWords += userString[index];
+                                    revString += userString[index];
                                 }
-                                return backWords;
+                                //Check if revString is equivalent to userString
+                                if(revString == userString) {
+                                    returnObj.msg = "Well done! You found a Palindrome!"  
+                                }
+                                else {
+                                    returnObj.msg = "Sorry! You did NOT enter a Palindrome!"  
+                                }
+                                returnObj.reversed = revString;
+                                return returnObj;
                             }
 
-                            //Display reversed string to user
+                            //Display the palindrome check to user
                             //view function
-                            function displayString(backWords) {
-                                //write to page
-                                document.getElementById("msg").innerHTML = `Your string reversed is: ${backWords}`;
-                                //show alert box
+                            function displayMessage(returnObj) {
+                                document.getElementById("alertHeader").innerHTML = returnObj.msg;
+                                //write reversed string to the page
+                                document.getElementById("msg").innerHTML = `Your phrase reversed is: ${returnObj.reversed} `;
+                                //turn alert message box on
                                 document.getElementById("alert").classList.remove("invisible");
                             }
                         </code>
                     </pre>
                 </div>
                 <div class="col-lg-4">
-                    <p>The Code is structured in <strong>three</strong> functions</p>
-                    <h5>getValue</h5>
+                    <p>The Code is structured in <strong>three</strong> functions.</p>
+                    <h5>getValues</h5>
                     <p>The <strong>getValue</strong> function gets user input from the app page. The function utilizes the <strong>getElementById</strong> to pull the userString value
-                    from the page. If the string length is less than one we set an alert, but if it more than one, we pass the value to the <strong>reverseString</strong> function.
-                    The function <strong>reverseString</strong> then returns an array that we set to the value <strong>backWords</strong> before we pass that
-                    same value to the <strong>displayString</strong> function.</p>
-                    <h5>reverseString</h5>
-                    <p>The <strong>reverseString</strong> function takes in a string parameter (<strong>userString</strong>).
-                    We create a variable <strong>backWords</strong> that holds an array. We then use a for loop to go through each index of the string from its last value to it's
-                    first, each time adding the indexes of <strong>userString</strong> to the array <strong>backWords</strong>.</p>
-                    <h5>displayString</h5>
-                    <p>The function <strong>displayString</strong> takes in the parameter <strong>backWords</strong> (the variable is an array that now holds the reversed string of 
-                    the user's input). We use DOM manipulation to go after elements with id of <strong>"msg"</strong> in our HTML, and we set the contents of that p tag to our template literal.
-                    Then we remove the class list item <strong>"invisible"</strong> on all elements of <strong>"alert"</strong> to make the contents now visible to the user upon click!</p>
+                    from the page. If the string length is less than one we set an alert, but if it more than one, we pass the value to the <strong>checkForPalindrome</strong> function.
+                    The function <strong>checkForPalindrome</strong> then returns an object that we set to the value <strong>returnObj</strong> before we pass that
+                    same value to the <strong>displayMessage</strong> function.</p>
+                    <h5>checkForPalindrome</h5>
+                    <p>The <strong>checkForPalindrome</strong> function takes in a string parameter (<strong>userString</strong>).
+                    We convert all the characters in <strong>userString</strong> to lowercase, and set a value <strong>regex</strong> to the regular expression of all
+                    characters that are letters or digits only. Then we return any character of <strong>regex</strong> to <strong>userString</strong> and also
+                    replace every character not in <strong>regex</strong> with a "" into <strong>userString</strong>.
+                    We create a variable <strong>revString</strong> that holds an array, but also an object <strong>returnObj</strong>. 
+                    We then use a for loop to go through each index of the string from its last value to it's
+                    first, each time adding the indexes of <strong>userString</strong> to the array <strong>revString</strong>.
+                    Then we check if <strong>revString</strong> is equal to <strong>userString</strong> using <strong>returnObj</strong>.
+                    We now set the reversed object <strong>returnObj</strong> to <strong>revString</strong> and return <strong>returnObj</strong>.</p>
+                    <h5>displayMessage</h5>
+                    <p>The function <strong>displayMessage</strong> takes in the parameter <strong>returnObj</strong>. 
+                    We use DOM manipulation to go after elements with id of <strong>"msg"</strong> and <strong>"alertHeader"</strong> in our HTML, and we set the 
+                    contents to our object and template literal.
+                    Then we make the message box visible to the user by removing the class list item <strong>"invisible"</strong> on all elements of <strong>"alert"</strong> upon button click!</p>
                 </div>
             </div>
         </div>
